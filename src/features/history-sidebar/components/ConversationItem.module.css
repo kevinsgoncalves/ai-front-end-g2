@@ -1,0 +1,34 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color 0.15s;
+}
+
+.item:hover {
+  background-color: #f0f0f0;
+}
+
+.selected {
+  background-color: #e0e7ff;
+  font-weight: 600;
+}
+
+.title {
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.date {
+  font-size: 12px;
+  color: #888;
+}
+
+.count {
+  font-size: 12px;
+  color: #666;
+}
