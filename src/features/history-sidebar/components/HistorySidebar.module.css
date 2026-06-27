@@ -46,6 +46,26 @@
   background: var(--skeleton-to);
 }
 
+.newSessionBtn {
+  display: block;
+  width: calc(100% - 16px);
+  margin: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #1a1a2e;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.15s;
+}
+
+.newSessionBtn:hover {
+  background: #2d2d4e;
+}
+
 .list {
   display: flex;
   flex-direction: column;

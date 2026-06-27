@@ -1,43 +1,18 @@
-import { useEffect, useState } from 'react';
-import type { HealthStatus } from '../types';
-import api from '../services/api';
+interface HealthIndicatorProps {
+  status: 'loading' | 'healthy' | 'unhealthy';
+}
 
-type HealthState = 'loading' | 'healthy' | 'unhealthy';
+const labels: Record<HealthIndicatorProps['status'], string> = {
+  loading: 'Verificando...',
+  healthy: 'API ativa',
+  unhealthy: 'API indisponível',
+};
 
-function HealthIndicator() {
-  const [state, setState] = useState<HealthState>('loading');
-
-  useEffect(() => {
-    let active = true;
-
-    api
-      .get<HealthStatus>('/health')
-      .then(({ data }) => {
-        if (active) {
-          setState(data.status === 'UP' ? 'healthy' : 'unhealthy');
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setState('unhealthy');
-        }
-      });
-
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const label = {
-    loading: 'Verificando...',
-    healthy: 'API online',
-    unhealthy: 'API offline',
-  }[state];
-
+function HealthIndicator({ status }: HealthIndicatorProps) {
   return (
     <div className="health" role="status">
-      <span className={`health__dot health__dot--${state}`} />
-      <span className="health__text">{label}</span>
+      <span className={`health__dot health__dot--${status}`} />
+      <span className="health__text">{labels[status]}</span>
     </div>
   );
 }

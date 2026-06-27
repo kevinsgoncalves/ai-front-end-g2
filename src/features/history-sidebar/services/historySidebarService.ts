@@ -1,7 +1,12 @@
 import type { ConversationItemData } from '../types/historySidebar';
-import { sessionsMock } from '../mocks/sessionsMock';
+import { getSessions } from '../../../services/sessionService';
 
 export async function fetchConversations(): Promise<ConversationItemData[]> {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  return sessionsMock;
+  const sessions = await getSessions();
+  return sessions.map((session) => ({
+    id: session.id,
+    title: session.title,
+    date: session.createdAt,
+    messageCount: 0,
+  }));
 }

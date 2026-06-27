@@ -2,14 +2,14 @@ import { useState, useCallback, useRef } from 'react';
 import type { UploadStatus, UploadError, UseUploadReturn } from '../types/upload';
 import type { Attachment } from '../../../types/attachment';
 import type { IUploadService } from '../services/uploadService';
-import { MockUploadService } from '../services/mockUploadService';
+import { ApiUploadService } from '../services/apiUploadService';
 import { useFileValidation } from './useFileValidation';
 import { useDragAndDrop } from './useDragAndDrop';
 import { FEEDBACK_DURATION } from '../constants/upload';
 
 export function useUpload(
   sessionId: number | null,
-  uploadService: IUploadService = new MockUploadService()
+  uploadService: IUploadService = new ApiUploadService()
 ): UseUploadReturn {
   const [internalStatus, setInternalStatus] = useState<UploadStatus>('idle');
   const [progress, setProgress] = useState(0);
