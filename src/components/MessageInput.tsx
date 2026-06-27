@@ -1,23 +1,34 @@
-import { useState, type KeyboardEvent } from 'react';
+import {
+  useState,
+  type ChangeEvent,
+  type KeyboardEvent,
+} from 'react';
 
 interface MessageInputProps {
   onSendMessage: (content: string) => void;
   isDisabled: boolean;
 }
 
-function MessageInput({ onSendMessage, isDisabled }: MessageInputProps) {
+function MessageInput({
+  onSendMessage,
+  isDisabled,
+}: MessageInputProps) {
   const [text, setText] = useState('');
 
   function handleSend() {
     const trimmed = text.trim();
-    if (!trimmed || isDisabled) return;
+
+    if (!trimmed || isDisabled) {
+      return;
+    }
+
     onSendMessage(trimmed);
     setText('');
   }
 
-  function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
+  function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
       handleSend();
     }
   }
@@ -25,19 +36,19 @@ function MessageInput({ onSendMessage, isDisabled }: MessageInputProps) {
   return (
     <div className="message-input">
       <textarea
-        aria-label="Digite sua mensagem"
-        placeholder={
-          isDisabled
-            ? 'Selecione uma sessão para começar'
-            : 'Digite sua mensagem...'
-        }
+        aria-label="Mensagem"
+        placeholder="Escreva sua mensagem..."
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+          setText(event.target.value)
+        }
         onKeyDown={handleKeyDown}
         rows={1}
         disabled={isDisabled}
       />
+
       <button
+        type="button"
         aria-label="Enviar mensagem"
         onClick={handleSend}
         disabled={isDisabled || !text.trim()}

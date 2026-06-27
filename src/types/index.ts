@@ -1,4 +1,4 @@
-export type { Message, MessageRole } from "./message";
-export type { Session } from "./session";
-export type { Attachment, AttachmentType } from "./attachment";
-export type { HealthStatus, ProblemDetail } from "./api";
+export type { Session } from './session';
+export type { MessageRole, Message, ChatResponse } from './message';
+export type { AttachmentType, Attachment } from './attachment';
+export type { ProblemDetail, HealthStatus } from './api';

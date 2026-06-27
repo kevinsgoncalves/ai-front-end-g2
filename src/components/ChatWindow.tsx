@@ -28,12 +28,12 @@ function ChatWindow({
             Nenhuma mensagem ainda. Escreva algo!
           </div>
         ) : (
-          messages.map((msg) => (
+          messages.map((message) => (
             <Message
-              key={msg.id}
-              role={msg.role}
-              content={msg.content}
-              timestamp={msg.timestamp}
+              key={message.id}
+              role={message.role}
+              content={message.content}
+              timestamp={message.timestamp}
             />
           ))
         )}

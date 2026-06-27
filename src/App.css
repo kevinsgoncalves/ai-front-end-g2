@@ -1,0 +1,78 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0f2f5;
+}
+
+.home__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background: #1a1a2e;
+  color: #ffffff;
+}
+
+.home__header h1 {
+  font-size: 1.25rem;
+}
+
+.home__header p {
+  margin-top: 2px;
+  color: #d1d5db;
+  font-size: 0.8125rem;
+}
+
+.home__main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.home__content {
+  width: 100%;
+  max-width: 768px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.home__error {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 0.875rem;
+}
+
+.health {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.health__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.health__dot--loading {
+  background: #eab308;
+}
+
+.health__dot--healthy {
+  background: #22c55e;
+}
+
+.health__dot--unhealthy {
+  background: #ef4444;
+}
+
+.health__text {
+  font-size: 0.8125rem;
+}

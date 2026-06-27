@@ -9,5 +9,6 @@ export async function sendMessage(
     sessionId,
     content,
   });
+
   return data;
 }
