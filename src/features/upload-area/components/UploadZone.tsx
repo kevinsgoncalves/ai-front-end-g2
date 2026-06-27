@@ -14,6 +14,7 @@ export function UploadZone({
   onFileSelect,
   onRemove,
   isDisabled,
+  dragHandlers,
 }: UploadZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -65,6 +66,7 @@ export function UploadZone({
             ? 'Upload desabilitado. Selecione uma sessão primeiro.'
             : 'Clique ou arraste arquivos para fazer upload'
         }
+        {...dragHandlers}
       >
         <input
           ref={inputRef}

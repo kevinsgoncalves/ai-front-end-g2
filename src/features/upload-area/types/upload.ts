@@ -21,6 +21,13 @@ export interface UploadState {
   attachmentResult: Attachment | null;
 }
 
+export interface DragHandlers {
+  onDragEnter: (e: React.DragEvent<HTMLElement>) => void;
+  onDragLeave: (e: React.DragEvent<HTMLElement>) => void;
+  onDragOver: (e: React.DragEvent<HTMLElement>) => void;
+  onDrop: (e: React.DragEvent<HTMLElement>) => void;
+}
+
 export interface UploadZoneProps {
   status: UploadStatus;
   error: string | null;
@@ -29,6 +36,7 @@ export interface UploadZoneProps {
   onFileSelect: (file: File) => void;
   onRemove: () => void;
   isDisabled: boolean;
+  dragHandlers?: DragHandlers;
 }
 
 export interface FilePreviewProps {

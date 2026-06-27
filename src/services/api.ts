@@ -2,13 +2,12 @@ import axios from 'axios';
 import type { ProblemDetail } from '../types';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api',
+  baseURL: '/api',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
 
 api.interceptors.response.use(
   (response) => response,
@@ -24,6 +23,5 @@ api.interceptors.response.use(
     } satisfies ProblemDetail);
   },
 );
-console.log('API baseURL:', api.defaults.baseURL);
 
 export default api;

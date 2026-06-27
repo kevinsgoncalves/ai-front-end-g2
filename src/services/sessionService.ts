@@ -1,0 +1,17 @@
+import type { Session } from '../types';
+import api from './api';
+
+export async function getSessions(): Promise<Session[]> {
+  const { data } = await api.get<Session[]>('/sessions');
+  return data;
+}
+
+export async function getSessionById(id: number): Promise<Session> {
+  const { data } = await api.get<Session>(`/sessions/${id}`);
+  return data;
+}
+
+export async function createSession(title: string): Promise<Session> {
+  const { data } = await api.post<Session>('/sessions', { title });
+  return data;
+}

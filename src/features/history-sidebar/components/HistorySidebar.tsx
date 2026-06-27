@@ -13,6 +13,7 @@ export interface HistorySidebarProps {
   onSelectSession: (id: number) => void;
   onRefresh: () => void;
   onRetry: () => void;
+  onCreateSession?: () => void;
 }
 
 export function HistorySidebar({
@@ -23,11 +24,12 @@ export function HistorySidebar({
   onSelectSession,
   onRefresh,
   onRetry,
+  onCreateSession,
 }: HistorySidebarProps) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Histórico</h2>
+        <h2 className={styles.title}>Sessões</h2>
         <button
           className={styles.refreshButton}
           onClick={onRefresh}
@@ -36,6 +38,12 @@ export function HistorySidebar({
           ↻
         </button>
       </div>
+
+      {onCreateSession && (
+        <button className={styles.newSessionBtn} onClick={onCreateSession} type="button">
+          + Nova sessão
+        </button>
+      )}
 
       {isLoading && <HistorySidebarSkeleton />}
       {!isLoading && error && <HistorySidebarError message={error} onRetry={onRetry} />}
