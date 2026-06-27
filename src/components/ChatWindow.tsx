@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import type { Message as MessageType } from '../types';
 import Message from './Message';
 import MessageInput from './MessageInput';
@@ -9,7 +9,11 @@ interface ChatWindowProps {
   isDisabled: boolean;
 }
 
-function ChatWindow({ messages, onSendMessage, isDisabled }: ChatWindowProps) {
+function ChatWindow({
+  messages,
+  onSendMessage,
+  isDisabled,
+}: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,12 +29,22 @@ function ChatWindow({ messages, onSendMessage, isDisabled }: ChatWindowProps) {
           </div>
         ) : (
           messages.map((msg) => (
-            <Message key={msg.id} sender={msg.sender} content={msg.content} timestamp={msg.timestamp} />
+            <Message
+              key={msg.id}
+              role={msg.role}
+              content={msg.content}
+              timestamp={msg.timestamp}
+            />
           ))
         )}
+
         <div ref={bottomRef} />
       </div>
-      <MessageInput onSendMessage={onSendMessage} isDisabled={isDisabled} />
+
+      <MessageInput
+        onSendMessage={onSendMessage}
+        isDisabled={isDisabled}
+      />
     </div>
   );
 }

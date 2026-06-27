@@ -1,14 +1,8 @@
-export type Sender = 'USER' | 'ASSISTANT';
+export type MessageRole = "USER" | "ASSISTANT";
 
 export interface Message {
   id: number;
-  sessionId: number;
-  sender: Sender;
   content: string;
+  role: MessageRole;
   timestamp: string;
-}
-
-export interface ChatResponse {
-  userMessage: Message;
-  assistantMessage: Message;
 }
