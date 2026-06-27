@@ -9,6 +9,7 @@ const api = axios.create({
   },
 });
 
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -23,5 +24,6 @@ api.interceptors.response.use(
     } satisfies ProblemDetail);
   },
 );
+console.log('API baseURL:', api.defaults.baseURL);
 
 export default api;
