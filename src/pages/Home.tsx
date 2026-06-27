@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Message } from '../types';
 import ChatWindow from '../components/ChatWindow';
 import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
+import { UploadZone, useUpload } from '../features/upload-area';
 
 function createMessage(
   content: string,
@@ -45,6 +46,15 @@ function Home() {
     selectSession,
     refresh,
   } = useHistorySidebar();
+
+  const {
+    status: uploadStatus,
+    progress: uploadProgress,
+    error: uploadError,
+    selectedFile,
+    handleFileSelect,
+    handleRemove,
+  } = useUpload(selectedId);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -103,11 +113,22 @@ function Home() {
           onRefresh={refresh}
           onRetry={refresh}
         />
-        <ChatWindow
-          messages={messages}
-          onSendMessage={handleSendMessage}
-          isDisabled={false}
-        />
+        <div className="chat-area-wrapper">
+          <ChatWindow
+            messages={messages}
+            onSendMessage={handleSendMessage}
+            isDisabled={false}
+          />
+          <UploadZone
+            status={uploadStatus}
+            error={uploadError?.detail ?? null}
+            selectedFile={selectedFile}
+            progress={uploadProgress}
+            onFileSelect={handleFileSelect}
+            onRemove={handleRemove}
+            isDisabled={selectedId === null}
+          />
+        </div>
       </main>
     </div>
   );

@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  animation: fadeIn 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success {
+  background-color: var(--upload-success-bg);
+  color: var(--upload-success-text);
+  border: 1px solid var(--upload-success-text);
+}
+
+.error {
+  background-color: var(--upload-error-bg);
+  color: var(--upload-error-text);
+  border: 1px solid var(--upload-error-text);
+}
+
+.icon {
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.message {
+  flex: 1;
+}
+
+.dismiss {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.dismiss:hover {
+  opacity: 1;
+}
