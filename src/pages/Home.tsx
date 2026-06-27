@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Message } from '../types';
 import ChatWindow from '../components/ChatWindow';
+import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
 
 function createMessage(
   content: string,
@@ -33,8 +34,21 @@ function getRandomReply(): string {
 
 function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const idRef = useRef(1);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const {
+    conversations,
+    selectedId,
+    isLoading,
+    error,
+    selectSession,
+    refresh,
+  } = useHistorySidebar();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     const initialId = idRef.current++;
@@ -62,9 +76,33 @@ function Home() {
   return (
     <div className="home">
       <header className="home__header">
-        <h1>MindJournal AI</h1>
+        <div className="home__header-left">
+          <h1>MindJournal AI</h1>
+        </div>
+        <div className="home__header-right">
+          <button
+            className="theme-toggle"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            aria-label={
+              theme === 'dark'
+                ? 'Alternar para modo claro'
+                : 'Alternar para modo escuro'
+            }
+          >
+            {theme === 'dark' ? '☀' : '☾'}
+          </button>
+        </div>
       </header>
       <main className="home__main">
+        <HistorySidebar
+          conversations={conversations}
+          selectedId={selectedId}
+          isLoading={isLoading}
+          error={error}
+          onSelectSession={selectSession}
+          onRefresh={refresh}
+          onRetry={refresh}
+        />
         <ChatWindow
           messages={messages}
           onSendMessage={handleSendMessage}
