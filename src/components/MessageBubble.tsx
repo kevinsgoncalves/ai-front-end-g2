@@ -1,13 +1,16 @@
-import { memo } from 'react';
 import type { MessageRole } from '../types';
 
-interface MessageProps {
+interface MessageBubbleProps {
   role: MessageRole;
   content: string;
   timestamp: string;
 }
 
-function Message({ role, content, timestamp }: MessageProps) {
+function MessageBubble({
+  role,
+  content,
+  timestamp,
+}: MessageBubbleProps) {
   const isUser = role === 'USER';
 
   return (
@@ -27,4 +30,4 @@ function Message({ role, content, timestamp }: MessageProps) {
   );
 }
 
-export default memo(Message);
+export default MessageBubble;

@@ -1,4 +1,9 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import type { Message, ProblemDetail } from '../types';
 import { sendMessage } from '../services/chatService';
 
@@ -32,23 +37,38 @@ export function useChat(): UseChatReturn {
       const userMessage: Message = {
         id: Date.now(),
         sessionId,
-        sender: 'USER',
+        role: 'USER',
         content,
         timestamp: new Date().toISOString(),
       };
 
-      setMessages((prev) => [...prev, userMessage]);
+      setMessages((previousMessages) => [
+        ...previousMessages,
+        userMessage,
+      ]);
 
       sendMessage(sessionId, content)
         .then((response) => {
-          if (abortRef.current) return;
-          setMessages((prev) => [...prev, response.assistantMessage]);
+          if (abortRef.current) {
+            return;
+          }
+
+          setMessages((previousMessages) => [
+            ...previousMessages,
+            response.assistantMessage,
+          ]);
         })
-        .catch((err) => {
-          if (abortRef.current) return;
-          const problem = err as ProblemDetail;
+        .catch((caughtError) => {
+          if (abortRef.current) {
+            return;
+          }
+
+          const problem = caughtError as ProblemDetail;
+
           setError(
-            problem.detail || problem.title || 'Erro ao enviar mensagem.',
+            problem.detail ||
+              problem.title ||
+              'Erro ao enviar mensagem.',
           );
         })
         .finally(() => {
