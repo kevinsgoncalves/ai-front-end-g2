@@ -1,0 +1,100 @@
+.container {
+  position: relative;
+  border: 2px dashed #ced4da;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  background-color: #fafafa;
+  overflow: hidden;
+}
+
+.container:hover:not(.disabled):not(.uploading) {
+  border-color: #4a90d9;
+  background-color: #f0f4ff;
+}
+
+.container:focus-visible {
+  outline: 2px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+.dragging {
+  border-color: #4a90d9;
+  background-color: #e8f0fe;
+}
+
+.uploading {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: #f0f0f0;
+}
+
+.input {
+  display: none;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.text {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #495057;
+  line-height: 1.5;
+}
+
+.limit {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #868e96;
+}
+
+.dragOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: rgba(74, 144, 217, 0.08);
+  border-radius: 12px;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dragIcon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.dragText {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a90d9;
+}
