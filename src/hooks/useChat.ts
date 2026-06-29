@@ -84,7 +84,12 @@ export function useChat(sessionId: number | null): UseChatReturn {
           if (sessionRef.current !== currentSession) return;
           setMessages((previousMessages) => [
             ...previousMessages,
-            response.assistantMessage,
+            {
+              ...response.assistantMessage,
+              sources: Array.isArray(response.sources)
+                ? response.sources
+                : [],
+            },
           ]);
         })
         .catch((caughtError) => {

@@ -1,3 +1,5 @@
+import type { Source } from './source';
+
 export type MessageRole = 'USER' | 'ASSISTANT';
 
 export interface Message {
@@ -6,9 +8,11 @@ export interface Message {
   role: MessageRole;
   content: string;
   timestamp: string;
+  sources?: Source[];
 }
 
 export interface ChatResponse {
   userMessage: Message;
   assistantMessage: Message;
+  sources: Source[];
 }
