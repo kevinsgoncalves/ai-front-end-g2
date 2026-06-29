@@ -1,13 +1,15 @@
 import { memo } from 'react';
-import type { MessageRole } from '../types';
+import type { MessageRole, Source } from '../types';
+import SourcePanel from './SourcePanel';
 
 interface MessageProps {
   role: MessageRole;
   content: string;
   timestamp: string;
+  sources?: Source[];
 }
 
-function Message({ role, content, timestamp }: MessageProps) {
+function Message({ role, content, timestamp, sources }: MessageProps) {
   const isUser = role === 'USER';
 
   return (
@@ -23,6 +25,9 @@ function Message({ role, content, timestamp }: MessageProps) {
           minute: '2-digit',
         })}
       </time>
+      {!isUser && sources && sources.length > 0 && (
+        <SourcePanel sources={sources} />
+      )}
     </article>
   );
 }

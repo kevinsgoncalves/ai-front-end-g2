@@ -34,6 +34,7 @@ function ChatWindow({
               role={message.role}
               content={message.content}
               timestamp={message.timestamp}
+              sources={message.sources}
             />
           ))
         )}
