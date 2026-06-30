@@ -53,8 +53,8 @@
   padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #1a1a2e;
-  color: #ffffff;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
@@ -63,7 +63,7 @@
 }
 
 .newSessionBtn:hover {
-  background: #2d2d4e;
+  background: var(--btn-primary-hover);
 }
 
 .list {
