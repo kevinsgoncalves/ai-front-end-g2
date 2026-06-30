@@ -95,11 +95,34 @@ export function useChat(sessionId: number | null): UseChatReturn {
         .catch((caughtError) => {
           if (sessionRef.current !== currentSession) return;
           const problem = caughtError as ProblemDetail;
-          setError(
-            problem.detail ||
-              problem.title ||
-              'Erro ao enviar mensagem.',
-          );
+          const isTimeout =
+            problem.status === 0 &&
+            (problem.detail?.toLowerCase().includes('timeout') ?? false);
+
+          if (isTimeout) {
+            getMessagesBySessionId(currentSession)
+              .then((serverMessages) => {
+                if (sessionRef.current !== currentSession) return;
+                if (serverMessages.length > messages.length + 1) {
+                  setMessages(serverMessages);
+                } else {
+                  setError(
+                    'O processamento excedeu o tempo limite. Tente novamente.',
+                  );
+                }
+              })
+              .catch(() => {
+                setError(
+                  'O processamento excedeu o tempo limite. Tente novamente.',
+                );
+              });
+          } else {
+            setError(
+              problem.detail ||
+                problem.title ||
+                'Erro ao enviar mensagem.',
+            );
+          }
         })
         .finally(() => {
           if (sessionRef.current !== currentSession) return;
