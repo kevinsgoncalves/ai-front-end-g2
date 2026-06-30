@@ -10,7 +10,9 @@ export interface HistorySidebarProps {
   selectedId: number | null;
   isLoading: boolean;
   error: string | null;
+  deletingId: number | null;
   onSelectSession: (id: number) => void;
+  onDeleteSession: (id: number) => void;
   onRefresh: () => void;
   onRetry: () => void;
   onCreateSession?: () => void;
@@ -21,7 +23,9 @@ export function HistorySidebar({
   selectedId,
   isLoading,
   error,
+  deletingId,
   onSelectSession,
+  onDeleteSession,
   onRefresh,
   onRetry,
   onCreateSession,
@@ -55,7 +59,9 @@ export function HistorySidebar({
               key={conv.id}
               conversation={conv}
               isSelected={conv.id === selectedId}
+              isDeleting={conv.id === deletingId}
               onSelect={onSelectSession}
+              onDelete={onDeleteSession}
             />
           ))}
         </ul>
