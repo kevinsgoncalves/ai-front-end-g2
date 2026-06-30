@@ -1,0 +1,9 @@
+warning: in the working copy of 'src/features/history-sidebar/components/ConversationItem.module.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/Home.tsx', LF will be replaced by CRLF the next time Git touches it
+ .../components/ConversationItem.module.css         | 56 [32m++++++++++++++++[m[31m---[m
+ .../components/ConversationItem.tsx                | 62 [32m++++++++++++++++++[m[31m----[m
+ .../history-sidebar/components/HistorySidebar.tsx  |  6 [32m+++[m
+ .../history-sidebar/hooks/useHistorySidebar.ts     | 30 [32m++++++++++[m[31m-[m
+ src/pages/Home.tsx                                 |  4 [32m++[m
+ src/services/sessionService.ts                     |  4 [32m++[m
+ 6 files changed, 143 insertions(+), 19 deletions(-)

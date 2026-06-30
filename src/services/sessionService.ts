@@ -15,3 +15,8 @@ export async function createSession(title: string): Promise<Session> {
   const { data } = await api.post<Session>('/sessions', { title });
   return data;
 }
+
+export async function deleteSession(id: number): Promise<void> {
+  await api.delete(`/sessions/${id}`);
+}
+

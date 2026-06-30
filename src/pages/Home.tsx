@@ -14,9 +14,11 @@ function Home() {
     selectedId,
     isLoading: sessionsLoading,
     error: sessionsError,
+    deletingId,
     selectSession,
     refresh: refreshSessions,
     createSession: hookCreateSession,
+    deleteSession: hookDeleteSession,
   } = useHistorySidebar();
 
   const {
@@ -81,7 +83,9 @@ function Home() {
           selectedId={selectedId}
           isLoading={sessionsLoading}
           error={sessionsError}
+          deletingId={deletingId}
           onSelectSession={handleSelectSession}
+          onDeleteSession={hookDeleteSession}
           onRefresh={handleRefresh}
           onRetry={handleRetry}
           onCreateSession={handleCreateSession}
