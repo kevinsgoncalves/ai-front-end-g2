@@ -6,6 +6,7 @@ import ThemeToggle from '../components/ThemeToggle';
 import { useHealth } from '../hooks/useHealth';
 import { useChat } from '../hooks/useChat';
 import { useTheme } from '../hooks/useTheme';
+import { useSessionAttachments } from '../hooks/useSessionAttachments';
 import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
 import { useUploadModal, UploadFileModal } from '../features/upload-area';
 
@@ -53,6 +54,11 @@ function Home() {
   } = useChat(selectedId, handleMessageSent);
 
   const {
+    attachments,
+    refresh: refreshAttachments,
+  } = useSessionAttachments(selectedId);
+
+  const {
     isOpen: uploadModalOpen,
     files: uploadFiles,
     isUploading: isUploadingFiles,
@@ -96,6 +102,11 @@ function Home() {
     },
     [sendMessage],
   );
+
+  const handleUploadComplete = useCallback(async () => {
+    await startFileUpload();
+    refreshAttachments();
+  }, [startFileUpload, refreshAttachments]);
 
   return (
     <div className="home">
@@ -141,6 +152,8 @@ function Home() {
               onSendMessage={handleSendMessage}
               onAttachClick={openUploadModal}
               isDisabled={isSending || selectedId === null || isLoadingMessages}
+              attachments={attachments}
+              onRefreshAttachments={refreshAttachments}
             />
           </div>
         </main>
@@ -155,7 +168,7 @@ function Home() {
         onClose={closeUploadModal}
         onAddFiles={addUploadFiles}
         onRemoveFile={removeUploadFile}
-        onUpload={startFileUpload}
+        onUpload={handleUploadComplete}
       />
     </div>
   );

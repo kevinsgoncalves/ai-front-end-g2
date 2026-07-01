@@ -1,13 +1,16 @@
 import { useEffect, useRef } from 'react';
-import type { Message as MessageType } from '../types';
+import type { Message as MessageType, AttachmentDetail } from '../types';
 import Message from './Message';
 import MessageInput from './MessageInput';
+import AttachmentList from './AttachmentList';
 
 interface ChatWindowProps {
   messages: MessageType[];
   onSendMessage: (content: string) => void;
   onAttachClick?: () => void;
   isDisabled: boolean;
+  attachments?: AttachmentDetail[];
+  onRefreshAttachments?: () => void;
 }
 
 function ChatWindow({
@@ -15,12 +18,14 @@ function ChatWindow({
   onSendMessage,
   onAttachClick,
   isDisabled,
+  attachments,
+  onRefreshAttachments,
 }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, attachments]);
 
   return (
     <div className="chat-window">
@@ -43,6 +48,11 @@ function ChatWindow({
 
         <div ref={bottomRef} />
       </div>
+
+      <AttachmentList
+        attachments={attachments ?? []}
+        onRefresh={onRefreshAttachments}
+      />
 
       <MessageInput
         onSendMessage={onSendMessage}
