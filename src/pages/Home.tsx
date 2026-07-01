@@ -6,6 +6,7 @@ import ThemeToggle from '../components/ThemeToggle';
 import { useHealth } from '../hooks/useHealth';
 import { useChat } from '../hooks/useChat';
 import { useTheme } from '../hooks/useTheme';
+import { useAttachments } from '../hooks/useAttachments';
 import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
 import { useUploadModal, UploadFileModal } from '../features/upload-area';
 
@@ -53,6 +54,13 @@ function Home() {
   } = useChat(selectedId, handleMessageSent);
 
   const {
+    attachments,
+    isLoading: attachmentsLoading,
+    error: attachmentsError,
+    refresh: refreshAttachments,
+  } = useAttachments(selectedId);
+
+  const {
     isOpen: uploadModalOpen,
     files: uploadFiles,
     isUploading: isUploadingFiles,
@@ -70,6 +78,12 @@ function Home() {
       refreshedTitles.current.delete(selectedId);
     }
   }, [selectedId]);
+
+  useEffect(() => {
+    if (uploadSuccess) {
+      refreshAttachments();
+    }
+  }, [uploadSuccess, refreshAttachments]);
 
   const handleSelectSession = useCallback(
     (id: number) => {
@@ -104,6 +118,7 @@ function Home() {
           <h1>MindJourney IA</h1>
           <p>Seu diário inteligente</p>
         </div>
+
         <div className="home__header-actions">
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
           <HealthIndicator status={healthStatus} />
@@ -141,6 +156,10 @@ function Home() {
               onSendMessage={handleSendMessage}
               onAttachClick={openUploadModal}
               isDisabled={isSending || selectedId === null || isLoadingMessages}
+              attachments={attachments}
+              attachmentsLoading={attachmentsLoading}
+              attachmentsError={attachmentsError}
+              onRefreshAttachments={refreshAttachments}
             />
           </div>
         </main>
