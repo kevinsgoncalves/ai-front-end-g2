@@ -1,8 +1,13 @@
-import type { AttachmentDetail } from '../types';
+import type { Attachment } from '../types';
 import api from './api';
 
-export async function getAttachmentsBySession(sessionId: number): Promise<AttachmentDetail[]> {
-  const { data } = await api.get<AttachmentDetail[]>(`/sessions/${sessionId}/attachments`);
+export async function getAttachmentsBySessionId(
+  sessionId: number,
+): Promise<Attachment[]> {
+  const { data } = await api.get<Attachment[]>(
+    `/sessions/${sessionId}/attachments`,
+  );
+
   return data;
 }
 

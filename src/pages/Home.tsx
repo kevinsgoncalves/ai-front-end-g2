@@ -6,7 +6,7 @@ import ThemeToggle from '../components/ThemeToggle';
 import { useHealth } from '../hooks/useHealth';
 import { useChat } from '../hooks/useChat';
 import { useTheme } from '../hooks/useTheme';
-import { useSessionAttachments } from '../hooks/useSessionAttachments';
+import { useAttachments } from '../hooks/useAttachments';
 import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
 import { useUploadModal, UploadFileModal } from '../features/upload-area';
 
@@ -56,8 +56,10 @@ function Home() {
 
   const {
     attachments,
+    isLoading: attachmentsLoading,
+    error: attachmentsError,
     refresh: refreshAttachments,
-  } = useSessionAttachments(selectedId);
+  } = useAttachments(selectedId);
 
   const {
     isOpen: uploadModalOpen,
@@ -77,6 +79,12 @@ function Home() {
       refreshedTitles.current.delete(selectedId);
     }
   }, [selectedId]);
+
+  useEffect(() => {
+    if (uploadSuccess) {
+      refreshAttachments();
+    }
+  }, [uploadSuccess, refreshAttachments]);
 
   const handleSelectSession = useCallback(
     (id: number) => {
@@ -116,6 +124,7 @@ function Home() {
           <h1>MindJourney IA</h1>
           <p>Seu diário inteligente</p>
         </div>
+
         <div className="home__header-actions">
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
           <HealthIndicator status={healthStatus} />
@@ -143,36 +152,4 @@ function Home() {
             {chatError && <p className="home__error">{chatError}</p>}
 
             {!selectedId && !chatError && (
-              <p className="home__info">
-                Selecione ou crie uma sessão para começar.
-              </p>
-            )}
-
-            <ChatWindow
-              messages={messages}
-              onSendMessage={handleSendMessage}
-              onAttachClick={openUploadModal}
-              isDisabled={isSending || selectedId === null || isLoadingMessages}
-              attachments={attachments}
-              onRefreshAttachments={refreshAttachments}
-            />
-          </div>
-        </main>
-      </div>
-
-      <UploadFileModal
-        isOpen={uploadModalOpen}
-        files={uploadFiles}
-        isUploading={isUploadingFiles}
-        globalError={uploadGlobalError}
-        uploadSuccess={uploadSuccess}
-        onClose={closeUploadModal}
-        onAddFiles={addUploadFiles}
-        onRemoveFile={removeUploadFile}
-        onUpload={handleUploadComplete}
-      />
-    </div>
-  );
-}
-
-export default Home;
+              <p className
