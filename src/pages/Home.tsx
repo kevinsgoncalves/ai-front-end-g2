@@ -151,5 +151,43 @@ function Home() {
           <div className="home__content">
             {chatError && <p className="home__error">{chatError}</p>}
 
-            {!selectedId && !chatError && (
-              <p className
+            {selectedId === null && !chatError && (
+              <p className="home__info">
+                Selecione ou crie uma sessão para começar.
+              </p>
+            )}
+
+            <ChatWindow
+              messages={messages}
+              onSendMessage={handleSendMessage}
+              onAttachClick={openUploadModal}
+              isDisabled={
+                isSending ||
+                selectedId === null ||
+                isLoadingMessages
+              }
+              attachments={attachments}
+              attachmentsLoading={attachmentsLoading}
+              attachmentsError={attachmentsError}
+              onRefreshAttachments={refreshAttachments}
+            />
+          </div>
+        </main>
+      </div>
+
+      <UploadFileModal
+        isOpen={uploadModalOpen}
+        files={uploadFiles}
+        isUploading={isUploadingFiles}
+        globalError={uploadGlobalError}
+        uploadSuccess={uploadSuccess}
+        onClose={closeUploadModal}
+        onAddFiles={addUploadFiles}
+        onRemoveFile={removeUploadFile}
+        onUpload={handleUploadComplete}
+      />
+    </div>
+  );
+}
+
+export default Home;

@@ -1,7 +1,11 @@
 export type AttachmentType = 'TXT' | 'PDF';
 export type AttachmentStatus = 'PROCESSING' | 'INDEXED' | 'FAILED';
 
-export type DocumentStatus = 'RECEIVED' | 'PROCESSING' | 'INDEXED' | 'FAILED';
+export type DocumentStatus =
+  | 'RECEIVED'
+  | 'PROCESSING'
+  | 'INDEXED'
+  | 'FAILED';
 
 export interface Attachment {
   id: number;
