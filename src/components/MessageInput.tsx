@@ -6,11 +6,13 @@ import {
 
 interface MessageInputProps {
   onSendMessage: (content: string) => void;
+  onAttachClick?: () => void;
   isDisabled: boolean;
 }
 
 function MessageInput({
   onSendMessage,
+  onAttachClick,
   isDisabled,
 }: MessageInputProps) {
   const [text, setText] = useState('');
@@ -35,6 +37,16 @@ function MessageInput({
 
   return (
     <div className="message-input">
+      <button
+        type="button"
+        className="message-input__attach"
+        aria-label="Anexar arquivos"
+        onClick={onAttachClick}
+        disabled={isDisabled}
+      >
+        📎
+      </button>
+
       <textarea
         aria-label="Mensagem"
         placeholder="Escreva sua mensagem..."
