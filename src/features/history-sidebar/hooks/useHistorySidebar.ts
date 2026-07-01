@@ -4,6 +4,7 @@ import { fetchConversations } from '../services/historySidebarService';
 import {
   createSession as apiCreateSession,
   deleteSession as apiDeleteSession,
+  updateSessionTitle as apiUpdateSessionTitle,
 } from '../../../services/sessionService';
 
 export function useHistorySidebar() {
@@ -12,6 +13,7 @@ export function useHistorySidebar() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [updatingTitleId, setUpdatingTitleId] = useState<number | null>(null);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -86,15 +88,42 @@ export function useHistorySidebar() {
     }
   }, [selectedId, conversations]);
 
+  const updateConversationTitle = useCallback(
+    (id: number, title: string) => {
+      setConversations((prev) =>
+        prev.map((conv) => (conv.id === id ? { ...conv, title } : conv)),
+      );
+    },
+    [],
+  );
+
+  const updateTitle = useCallback(
+    async (id: number, title: string) => {
+      setUpdatingTitleId(id);
+      try {
+        await apiUpdateSessionTitle(id, title);
+        setConversations((prev) =>
+          prev.map((conv) => (conv.id === id ? { ...conv, title } : conv)),
+        );
+      } finally {
+        setUpdatingTitleId(null);
+      }
+    },
+    [],
+  );
+
   return {
     conversations,
     selectedId,
     isLoading,
     error,
     deletingId,
+    updatingTitleId,
     selectSession,
     refresh,
     createSession,
     deleteSession,
+    updateConversationTitle,
+    updateTitle,
   };
 }

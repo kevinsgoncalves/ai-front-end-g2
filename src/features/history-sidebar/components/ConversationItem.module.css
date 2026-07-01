@@ -53,7 +53,16 @@
   transition: color 0.2s ease;
 }
 
-.deleteButton {
+.actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.editButton,
+.deleteButton,
+.saveButton,
+.cancelButton {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,6 +78,12 @@
   border-radius: 0;
 }
 
+.editButton:hover,
+.editButton:focus-visible {
+  color: var(--accent);
+  opacity: 1;
+}
+
 .deleteButton:hover,
 .deleteButton:focus-visible {
   color: var(--danger);
@@ -78,4 +93,66 @@
 .deleteButton:disabled {
   opacity: 0.2;
   cursor: not-allowed;
+}
+
+.saveButton:hover,
+.saveButton:focus-visible {
+  color: var(--color-success, #22c55e);
+  opacity: 1;
+}
+
+.saveButton:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.cancelButton:hover,
+.cancelButton:focus-visible {
+  color: var(--color-error, #ef4444);
+  opacity: 1;
+}
+
+.cancelButton:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.editArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  min-width: 0;
+}
+
+.editInput {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--card-bg);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  outline: none;
+  font-family: inherit;
+}
+
+.editInput:focus {
+  box-shadow: 0 0 0 2px var(--accent-muted);
+}
+
+.editInputError {
+  border-color: var(--color-error, #ef4444);
+}
+
+.editInputError:focus {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error, #ef4444) 25%, transparent);
+}
+
+.editError {
+  font-size: 0.6875rem;
+  color: var(--color-error, #ef4444);
+  line-height: 1.2;
 }

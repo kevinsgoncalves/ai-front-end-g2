@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import type { ChatResponse } from '../types';
 import ChatWindow from '../components/ChatWindow';
 import HealthIndicator from '../components/HealthIndicator';
 import ThemeToggle from '../components/ThemeToggle';
@@ -11,6 +12,7 @@ import { useUploadModal, UploadFileModal } from '../features/upload-area';
 function Home() {
   const healthStatus = useHealth();
   const { theme, toggleTheme } = useTheme();
+  const refreshedTitles = useRef(new Set<number>());
 
   const {
     conversations,
@@ -18,11 +20,29 @@ function Home() {
     isLoading: sessionsLoading,
     error: sessionsError,
     deletingId,
+    updatingTitleId,
     selectSession,
     refresh: refreshSessions,
     createSession: hookCreateSession,
     deleteSession: hookDeleteSession,
+    updateConversationTitle,
+    updateTitle,
   } = useHistorySidebar();
+
+  const handleMessageSent = useCallback(
+    (response: ChatResponse) => {
+      if (response.sessionTitle && selectedId !== null) {
+        updateConversationTitle(selectedId, response.sessionTitle);
+      } else if (
+        selectedId !== null &&
+        !refreshedTitles.current.has(selectedId)
+      ) {
+        refreshedTitles.current.add(selectedId);
+        refreshSessions();
+      }
+    },
+    [selectedId, updateConversationTitle, refreshSessions],
+  );
 
   const {
     messages,
@@ -30,20 +50,26 @@ function Home() {
     isLoadingMessages,
     error: chatError,
     sendMessage,
-  } = useChat(selectedId);
+  } = useChat(selectedId, handleMessageSent);
 
   const {
     isOpen: uploadModalOpen,
     files: uploadFiles,
     isUploading: isUploadingFiles,
     globalError: uploadGlobalError,
-    uploadSuccess: uploadSuccess,
+    uploadSuccess,
     open: openUploadModal,
     close: closeUploadModal,
     addFiles: addUploadFiles,
     removeFile: removeUploadFile,
     startUpload: startFileUpload,
   } = useUploadModal(selectedId);
+
+  useEffect(() => {
+    if (selectedId !== null) {
+      refreshedTitles.current.delete(selectedId);
+    }
+  }, [selectedId]);
 
   const handleSelectSession = useCallback(
     (id: number) => {
@@ -91,8 +117,10 @@ function Home() {
           isLoading={sessionsLoading}
           error={sessionsError}
           deletingId={deletingId}
+          updatingTitleId={updatingTitleId}
           onSelectSession={handleSelectSession}
           onDeleteSession={hookDeleteSession}
+          onUpdateTitle={updateTitle}
           onRefresh={handleRefresh}
           onRetry={handleRetry}
           onCreateSession={handleCreateSession}

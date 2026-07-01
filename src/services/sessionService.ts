@@ -20,3 +20,13 @@ export async function deleteSession(id: number): Promise<void> {
   await api.delete(`/sessions/${id}`);
 }
 
+export async function updateSessionTitle(
+  id: number,
+  title: string,
+): Promise<Session> {
+  const { data } = await api.patch<Session>(`/sessions/${id}/title`, {
+    title,
+  });
+  return data;
+}
+
