@@ -119,10 +119,35 @@ button {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.chat-window__messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-window__messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-window__messages::-webkit-scrollbar-thumb {
+  background: var(--text-muted, #9ca3af);
+  border-radius: 3px;
+}
+
+.chat-window__messages::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary, #6b7280);
+}
+
+@supports (scrollbar-width: thin) {
+  .chat-window__messages {
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-muted, #9ca3af) transparent;
+  }
 }
 
 .chat-window__empty {
