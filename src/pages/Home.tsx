@@ -31,9 +31,10 @@ function Home() {
   } = useHistorySidebar();
 
   const handleMessageSent = useCallback(
-    (response: ChatResponse) => {
+    async (response: ChatResponse) => {
       if (response.sessionTitle && selectedId !== null) {
         updateConversationTitle(selectedId, response.sessionTitle);
+        await updateTitle(selectedId, response.sessionTitle);
       } else if (
         selectedId !== null &&
         !refreshedTitles.current.has(selectedId)
@@ -42,7 +43,7 @@ function Home() {
         refreshSessions();
       }
     },
-    [selectedId, updateConversationTitle, refreshSessions],
+    [selectedId, updateConversationTitle, updateTitle, refreshSessions],
   );
 
   const {

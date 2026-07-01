@@ -25,7 +25,7 @@ function ChatWindow({
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, attachments]);
+  }, [messages]);
 
   return (
     <div className="chat-window">
