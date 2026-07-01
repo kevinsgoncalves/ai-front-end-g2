@@ -1,13 +1,16 @@
 import { useCallback } from 'react';
 import ChatWindow from '../components/ChatWindow';
 import HealthIndicator from '../components/HealthIndicator';
+import ThemeToggle from '../components/ThemeToggle';
 import { useHealth } from '../hooks/useHealth';
 import { useChat } from '../hooks/useChat';
+import { useTheme } from '../hooks/useTheme';
 import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
 import { useUpload, UploadZone } from '../features/upload-area';
 
 function Home() {
   const healthStatus = useHealth();
+  const { theme, toggleTheme } = useTheme();
 
   const {
     conversations,
@@ -72,7 +75,10 @@ function Home() {
           <h1>MindJourney IA</h1>
           <p>Seu diário inteligente</p>
         </div>
-        <HealthIndicator status={healthStatus} />
+        <div className="home__header-actions">
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          <HealthIndicator status={healthStatus} />
+        </div>
       </header>
 
       <div className="home__body">
