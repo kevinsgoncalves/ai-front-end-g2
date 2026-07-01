@@ -388,6 +388,27 @@ button {
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
+.message-input__attach {
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px 10px;
+  font-size: 1.125rem;
+  line-height: 1;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.message-input__attach:hover:not(:disabled) {
+  border-color: #1a1a2e;
+  background: #eef2ff;
+}
+
+.message-input__attach:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
 .message-input textarea {
   flex: 1;
   padding: 10px 14px;

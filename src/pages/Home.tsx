@@ -6,7 +6,7 @@ import { useHealth } from '../hooks/useHealth';
 import { useChat } from '../hooks/useChat';
 import { useTheme } from '../hooks/useTheme';
 import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
-import { useUpload, UploadZone } from '../features/upload-area';
+import { useUploadModal, UploadFileModal } from '../features/upload-area';
 
 function Home() {
   const healthStatus = useHealth();
@@ -33,16 +33,17 @@ function Home() {
   } = useChat(selectedId);
 
   const {
-    status: uploadStatus,
-    progress: uploadProgress,
-    error: uploadError,
-    selectedFile,
-    handleFileSelect,
-    handleRemove,
-    dragHandlers,
-  } = useUpload(selectedId);
-
-  const isUploadDisabled = selectedId === null;
+    isOpen: uploadModalOpen,
+    files: uploadFiles,
+    isUploading: isUploadingFiles,
+    globalError: uploadGlobalError,
+    uploadSuccess: uploadSuccess,
+    open: openUploadModal,
+    close: closeUploadModal,
+    addFiles: addUploadFiles,
+    removeFile: removeUploadFile,
+    startUpload: startFileUpload,
+  } = useUploadModal(selectedId);
 
   const handleSelectSession = useCallback(
     (id: number) => {
@@ -110,24 +111,24 @@ function Home() {
             <ChatWindow
               messages={messages}
               onSendMessage={handleSendMessage}
+              onAttachClick={openUploadModal}
               isDisabled={isSending || selectedId === null || isLoadingMessages}
             />
-
-            <div className="upload-zone-wrapper">
-              <UploadZone
-                status={uploadStatus}
-                error={uploadError ? uploadError.detail : null}
-                selectedFile={selectedFile}
-                progress={uploadProgress}
-                onFileSelect={handleFileSelect}
-                onRemove={handleRemove}
-                isDisabled={isUploadDisabled}
-                dragHandlers={dragHandlers}
-              />
-            </div>
           </div>
         </main>
       </div>
+
+      <UploadFileModal
+        isOpen={uploadModalOpen}
+        files={uploadFiles}
+        isUploading={isUploadingFiles}
+        globalError={uploadGlobalError}
+        uploadSuccess={uploadSuccess}
+        onClose={closeUploadModal}
+        onAddFiles={addUploadFiles}
+        onRemoveFile={removeUploadFile}
+        onUpload={startFileUpload}
+      />
     </div>
   );
 }

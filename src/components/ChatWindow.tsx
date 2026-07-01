@@ -6,12 +6,14 @@ import MessageInput from './MessageInput';
 interface ChatWindowProps {
   messages: MessageType[];
   onSendMessage: (content: string) => void;
+  onAttachClick?: () => void;
   isDisabled: boolean;
 }
 
 function ChatWindow({
   messages,
   onSendMessage,
+  onAttachClick,
   isDisabled,
 }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -44,6 +46,7 @@ function ChatWindow({
 
       <MessageInput
         onSendMessage={onSendMessage}
+        onAttachClick={onAttachClick}
         isDisabled={isDisabled}
       />
     </div>

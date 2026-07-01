@@ -55,6 +55,14 @@ export interface ProgressBarProps {
   percent: number;
 }
 
+export interface FileEntry {
+  id: string;
+  file: File;
+  progress: number;
+  status: 'pending' | 'uploading' | 'completed' | 'error';
+  error?: string;
+}
+
 export interface UseUploadReturn {
   status: UploadStatus;
   progress: number;
