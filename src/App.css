@@ -85,15 +85,15 @@
 }
 
 .health__dot--loading {
-  background: #eab308;
+  background: var(--color-warning);
 }
 
 .health__dot--healthy {
-  background: #22c55e;
+  background: var(--color-success);
 }
 
 .health__dot--unhealthy {
-  background: #ef4444;
+  background: var(--color-error);
 }
 
 .health__text {
@@ -102,7 +102,7 @@
 
 .theme-toggle {
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid color-mix(in srgb, var(--header-text) 25%, transparent);
   border-radius: 8px;
   width: 36px;
   height: 36px;
@@ -117,8 +117,8 @@
 }
 
 .theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: color-mix(in srgb, var(--header-text) 10%, transparent);
+  border-color: color-mix(in srgb, var(--header-text) 50%, transparent);
 }
 
 @media (max-width: 640px) {

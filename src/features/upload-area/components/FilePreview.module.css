@@ -63,7 +63,7 @@
 
 .remove:hover:not(:disabled) {
   background-color: var(--danger);
-  color: #fff;
+  color: var(--btn-primary-text);
 }
 
 .remove:disabled {
