@@ -31,6 +31,7 @@ function AttachmentList({
       <div className={styles.container}>
         <div className={styles.error}>
           <span>{error}</span>
+
           <button
             type="button"
             className={styles.error__retry}
@@ -53,9 +54,17 @@ function AttachmentList({
       <span className={styles.heading}>
         Anexos ({attachments.length})
       </span>
-      <div className={styles.list} role="list" aria-label="Arquivos anexados">
+
+      <div
+        className={styles.list}
+        role="list"
+        aria-label="Arquivos anexados"
+      >
         {attachments.map((attachment) => (
-          <AttachmentCard key={attachment.id} attachment={attachment} />
+          <AttachmentCard
+            key={attachment.id}
+            attachment={attachment}
+          />
         ))}
       </div>
     </div>

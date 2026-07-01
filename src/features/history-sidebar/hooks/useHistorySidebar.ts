@@ -101,9 +101,9 @@ export function useHistorySidebar() {
     async (id: number, title: string) => {
       setUpdatingTitleId(id);
       try {
-        await apiUpdateSessionTitle(id, title);
+        const session = await apiUpdateSessionTitle(id, title);
         setConversations((prev) =>
-          prev.map((conv) => (conv.id === id ? { ...conv, title } : conv)),
+          prev.map((conv) => (conv.id === id ? { ...conv, title: session.title } : conv)),
         );
       } finally {
         setUpdatingTitleId(null);

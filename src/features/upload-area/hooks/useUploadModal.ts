@@ -77,7 +77,6 @@ export function useUploadModal(sessionId: number | null) {
     setGlobalError(null);
 
     const pending = files.filter((f) => f.status === 'pending');
-    let allOk = true;
 
     for (const entry of pending) {
       setFiles((prev) =>
@@ -101,7 +100,6 @@ export function useUploadModal(sessionId: number | null) {
           ),
         );
       } catch (err) {
-        allOk = false;
         const uploadError = err as { detail?: string; title?: string };
         setFiles((prev) =>
           prev.map((f) =>
@@ -122,14 +120,10 @@ export function useUploadModal(sessionId: number | null) {
 
     setIsUploading(false);
 
-    if (allOk) {
-      setUploadSuccess(true);
-      setTimeout(() => {
-        setIsOpen(false);
-        setFiles([]);
-        setUploadSuccess(false);
-      }, 1500);
-    }
+    setFiles([]);
+    setGlobalError(null);
+    setUploadSuccess(false);
+    setIsOpen(false);
   }
 
   return {

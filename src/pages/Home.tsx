@@ -31,9 +31,10 @@ function Home() {
   } = useHistorySidebar();
 
   const handleMessageSent = useCallback(
-    (response: ChatResponse) => {
+    async (response: ChatResponse) => {
       if (response.sessionTitle && selectedId !== null) {
         updateConversationTitle(selectedId, response.sessionTitle);
+        await updateTitle(selectedId, response.sessionTitle);
       } else if (
         selectedId !== null &&
         !refreshedTitles.current.has(selectedId)
@@ -42,7 +43,7 @@ function Home() {
         refreshSessions();
       }
     },
-    [selectedId, updateConversationTitle, refreshSessions],
+    [selectedId, updateConversationTitle, updateTitle, refreshSessions],
   );
 
   const {
@@ -111,6 +112,11 @@ function Home() {
     [sendMessage],
   );
 
+  const handleUploadComplete = useCallback(async () => {
+    await startFileUpload();
+    refreshAttachments();
+  }, [startFileUpload, refreshAttachments]);
+
   return (
     <div className="home">
       <header className="home__header">
@@ -146,38 +152,4 @@ function Home() {
             {chatError && <p className="home__error">{chatError}</p>}
 
             {!selectedId && !chatError && (
-              <p className="home__info">
-                Selecione ou crie uma sessão para começar.
-              </p>
-            )}
-
-            <ChatWindow
-              messages={messages}
-              onSendMessage={handleSendMessage}
-              onAttachClick={openUploadModal}
-              isDisabled={isSending || selectedId === null || isLoadingMessages}
-              attachments={attachments}
-              attachmentsLoading={attachmentsLoading}
-              attachmentsError={attachmentsError}
-              onRefreshAttachments={refreshAttachments}
-            />
-          </div>
-        </main>
-      </div>
-
-      <UploadFileModal
-        isOpen={uploadModalOpen}
-        files={uploadFiles}
-        isUploading={isUploadingFiles}
-        globalError={uploadGlobalError}
-        uploadSuccess={uploadSuccess}
-        onClose={closeUploadModal}
-        onAddFiles={addUploadFiles}
-        onRemoveFile={removeUploadFile}
-        onUpload={startFileUpload}
-      />
-    </div>
-  );
-}
-
-export default Home;
+              <p className

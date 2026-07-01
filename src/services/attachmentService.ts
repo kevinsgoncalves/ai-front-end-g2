@@ -7,6 +7,7 @@ export async function getAttachmentsBySessionId(
   const { data } = await api.get<Attachment[]>(
     `/sessions/${sessionId}/attachments`,
   );
+
   return data;
 }
 
