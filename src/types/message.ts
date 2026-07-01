@@ -15,4 +15,5 @@ export interface ChatResponse {
   userMessage: Message;
   assistantMessage: Message;
   sources: Source[];
+  sessionTitle?: string;
 }

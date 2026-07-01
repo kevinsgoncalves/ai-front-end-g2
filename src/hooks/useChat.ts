@@ -4,7 +4,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import type { Message, ProblemDetail } from '../types';
+import type { ChatResponse, Message, ProblemDetail } from '../types';
 import { sendMessage } from '../services/chatService';
 import { getBySessionId as getMessagesBySessionId } from '../services/messageService';
 
@@ -16,13 +16,21 @@ interface UseChatReturn {
   sendMessage: (content: string) => void;
 }
 
-export function useChat(sessionId: number | null): UseChatReturn {
+export function useChat(
+  sessionId: number | null,
+  onMessageSent?: (response: ChatResponse) => void,
+): UseChatReturn {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sessionRef = useRef<number | null>(sessionId);
   const loadingRef = useRef(false);
+  const onMessageSentRef = useRef(onMessageSent);
+
+  useEffect(() => {
+    onMessageSentRef.current = onMessageSent;
+  }, [onMessageSent]);
 
   useEffect(() => {
     sessionRef.current = sessionId;
@@ -91,6 +99,7 @@ export function useChat(sessionId: number | null): UseChatReturn {
                 : [],
             },
           ]);
+          onMessageSentRef.current?.(response);
         })
         .catch((caughtError) => {
           if (sessionRef.current !== currentSession) return;
