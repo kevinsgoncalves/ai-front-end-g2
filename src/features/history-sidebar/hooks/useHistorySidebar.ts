@@ -1,13 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { ConversationItemData } from '../types/historySidebar';
 import { fetchConversations } from '../services/historySidebarService';
-import { createSession as apiCreateSession } from '../../../services/sessionService';
+import {
+  createSession as apiCreateSession,
+  deleteSession as apiDeleteSession,
+} from '../../../services/sessionService';
 
 export function useHistorySidebar() {
   const [conversations, setConversations] = useState<ConversationItemData[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -56,13 +60,41 @@ export function useHistorySidebar() {
     }
   }, []);
 
+  const deleteSession = useCallback(async (id: number) => {
+    setDeletingId(id);
+    setError(null);
+    try {
+      await apiDeleteSession(id);
+      const isDeletingActive = selectedId === id;
+      const deletedIdx = conversations.findIndex((c) => c.id === id);
+      setConversations((prev) => prev.filter((conv) => conv.id !== id));
+      if (isDeletingActive) {
+        const remaining = conversations.filter((conv) => conv.id !== id);
+        if (remaining.length === 0) {
+          setSelectedId(null);
+        } else {
+          const nextIndex = Math.min(deletedIdx, remaining.length - 1);
+          setSelectedId(remaining[nextIndex].id);
+        }
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : 'Erro ao excluir sessão.';
+      setError(message);
+    } finally {
+      setDeletingId(null);
+    }
+  }, [selectedId, conversations]);
+
   return {
     conversations,
     selectedId,
     isLoading,
     error,
+    deletingId,
     selectSession,
     refresh,
     createSession,
+    deleteSession,
   };
 }
