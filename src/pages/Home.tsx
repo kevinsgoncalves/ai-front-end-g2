@@ -1,10 +1,11 @@
-import { useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import ChatWindow from '../components/ChatWindow';
 import HealthIndicator from '../components/HealthIndicator';
 import ThemeToggle from '../components/ThemeToggle';
 import { useHealth } from '../hooks/useHealth';
 import { useChat } from '../hooks/useChat';
 import { useTheme } from '../hooks/useTheme';
+import { useAttachments } from '../hooks/useAttachments';
 import { HistorySidebar, useHistorySidebar } from '../features/history-sidebar';
 import { useUploadModal, UploadFileModal } from '../features/upload-area';
 
@@ -33,17 +34,30 @@ function Home() {
   } = useChat(selectedId);
 
   const {
+    attachments,
+    isLoading: attachmentsLoading,
+    error: attachmentsError,
+    refresh: refreshAttachments,
+  } = useAttachments(selectedId);
+
+  const {
     isOpen: uploadModalOpen,
     files: uploadFiles,
     isUploading: isUploadingFiles,
     globalError: uploadGlobalError,
-    uploadSuccess: uploadSuccess,
+    uploadSuccess,
     open: openUploadModal,
     close: closeUploadModal,
     addFiles: addUploadFiles,
     removeFile: removeUploadFile,
     startUpload: startFileUpload,
   } = useUploadModal(selectedId);
+
+  useEffect(() => {
+    if (uploadSuccess) {
+      refreshAttachments();
+    }
+  }, [uploadSuccess, refreshAttachments]);
 
   const handleSelectSession = useCallback(
     (id: number) => {
@@ -113,6 +127,10 @@ function Home() {
               onSendMessage={handleSendMessage}
               onAttachClick={openUploadModal}
               isDisabled={isSending || selectedId === null || isLoadingMessages}
+              attachments={attachments}
+              attachmentsLoading={attachmentsLoading}
+              attachmentsError={attachmentsError}
+              onRefreshAttachments={refreshAttachments}
             />
           </div>
         </main>

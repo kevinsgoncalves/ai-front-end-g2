@@ -1,4 +1,5 @@
 export type AttachmentType = 'TXT' | 'PDF';
+export type AttachmentStatus = 'PROCESSING' | 'INDEXED' | 'FAILED';
 
 export interface Attachment {
   id: number;
@@ -6,5 +7,6 @@ export interface Attachment {
   filename: string;
   type: AttachmentType;
   size: number;
+  status?: AttachmentStatus;
   uploadDate: string;
 }
