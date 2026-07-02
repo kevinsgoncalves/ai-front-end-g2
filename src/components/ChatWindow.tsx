@@ -25,15 +25,36 @@ function ChatWindow({
   attachmentsError,
   onRefreshAttachments,
 }: ChatWindowProps) {
+  const messagesRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const isNearBottomRef = useRef(true);
+
+  function isNearBottom() {
+    const el = messagesRef.current;
+    if (!el) return true;
+    return el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+  }
 
   useEffect(() => {
+    const el = messagesRef.current;
+    if (!el) return;
+
+    function handleScroll() {
+      isNearBottomRef.current = isNearBottom();
+    }
+
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!isNearBottomRef.current) return;
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
     <div className="chat-window">
-      <div className="chat-window__messages">
+      <div className="chat-window__messages" ref={messagesRef}>
         {messages.length === 0 ? (
           <div className="chat-window__empty">
             Nenhuma mensagem ainda. Escreva algo!
