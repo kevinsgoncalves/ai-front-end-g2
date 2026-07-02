@@ -213,6 +213,11 @@
   --color-error: #EF4444;
 }
 
+html {
+  height: 100%;
+  min-height: 0;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -220,8 +225,10 @@
 }
 
 body {
+  height: 100%;
+  min-height: 0;
   min-width: 320px;
-  min-height: 100vh;
+  overflow: hidden;
   color: var(--text-primary);
   background: var(--bg-body);
   transition: color 0.2s ease, background 0.2s ease;
@@ -238,7 +245,8 @@ button {
 }
 
 #root {
-  min-height: 100vh;
+  height: 100%;
+  min-height: 0;
 }
 
 .upload-zone-wrapper {
@@ -381,6 +389,7 @@ button {
 }
 
 .message-input {
+  flex-shrink: 0;
   display: flex;
   gap: 8px;
   padding: 16px;
